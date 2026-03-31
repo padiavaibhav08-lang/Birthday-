@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>For You Chotu Babu ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { 
+      height: 100%; 
+      margin: 0; 
+      font-family: Arial, sans-serif; 
+      background: linear-gradient(135deg, #ff758c, #ff7eb3); 
+      color: white; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      overflow: hidden; /* prevent whole page scrolling */
+    }
+
+    .container { 
+      width: 100%; 
+      max-width: 420px; 
+      height: 100vh; /* fit full screen */
+      padding: 20px; 
+      position: relative; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; /* vertical center */
+      align-items: center; 
+      text-align: center; 
+    }
+
+    .step { display: none; width: 100%; flex-direction: column; justify-content: center; align-items: center; }
+    .step.active { display: flex; }
+
+    /* Step 1 */
+    #step1 h2 { 
+      font-size: 36px; 
+      font-weight: bold; 
+      margin: 0 0 15px; 
+    }
+    #step1 .love-text {
+      text-align: center;
+      line-height: 1.5;
+      font-size: 18px; 
+      max-height: 65vh; /* restrict text height */
+      overflow-y: auto; /* scroll inside container if too long */
+      padding-right: 10px; /* prevent scrollbar overlap */
+    }
+    #step1 .love-text::-webkit-scrollbar { width: 5px; }
+    #step1 .love-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.5); border-radius: 5px; }
+
+    #step1 button { 
+      padding: 16px 40px; 
+      font-size: 18px; 
+      border: none; 
+      border-radius: 40px; 
+      background: white; 
+      color: #ff4b7d; 
+      font-weight: bold; 
+      cursor: pointer; 
+      transition: 0.3s; 
+      margin-top: 20px;
+    }
+    #step1 button:hover { background-color: #ff7eb3; color: white; }
+
+    /* Step 2: slideshow */
+    #step2 { flex-direction: column; }
+    #step2 img { width: 100%; max-height: 70vh; object-fit: contain; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 8px 15px rgba(0,0,0,0.3); background: white; }
+    #step2 button { padding: 14px 30px; font-size: 18px; border-radius: 25px; border: none; background: white; color: #ff4b7d; font-weight: bold; cursor: pointer; width: 150px; }
+    #step2 button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Step 3: final message */
+    #step3 { justify-content: center; align-items: center; height: 100vh; padding: 10px; }
+    #step3 h2 { font-size: 28px; font-weight: bold; margin-bottom: 15px; }
+    #step3 p {
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      overflow: hidden;
+    }
+
+    /* Heart explosion */
+    #heartExplosion { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; overflow: visible; }
+    .explosion-heart { position: absolute; font-size: 40px; opacity: 1; animation: floatUpFadeBig 1.8s forwards; user-select: none; pointer-events: none; }
+    @keyframes floatUpFadeBig { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) scale(0.2); opacity: 0; } }
+
+    /* Responsive adjustments */
+    @media(max-height: 600px){
+      #step1 h2 { font-size: 28px; }
+      #step1 .love-text { font-size: 16px; max-height: 55vh; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Step 1 -->
+  <div id="step1" class="step active">
+    <h2>Hey Love ❤️</h2>
+    <div class="love-text">
+      <p>Everything I feel for you is genuine. My intentions are pure. I simply want to see you happy and make sure you never doubt how deeply you're loved.</p>
+      <p>I know I'm not perfect, and I'll never pretend to be, but I promise to always give you the best of me. Even on the hardest days, I won't walk away.</p>
+      <p>I'm here for you, always, and I'm never giving up on us. 💖💞</p>
+    </div>
+    <button id="startBtn">Tap here</button>
+  </div>
+
+  <!-- Step 2: Slideshow -->
+  <div id="step2" class="step">
+    <h2>Our Memories 📸</h2>
+    <img id="slideImg" src="photo1.jpg" alt="Memory 1" />
+    <button id="nextPicBtn">Next ❤️</button>
+  </div>
+
+  <!-- Step 3: Final message -->
+  <div id="step3" class="step">
+    <h2>Happy Birthday BUBU ❤️</h2>
+    <p>
+Dear Zeel,
+
+I love everything about you, everything you do. I don't know what I do to deserve you.
+You are honestly so perfect and the first person ever who made me feel what real love is.
+I want to be with you forever no matter what. I'll always love you no matter what.
+I love your voice, smile, eyes, laugh, face, hair, everything about you.
+
+HAPPY BIRTHDAY JADI PADI ❤️
+
+I love you ❤️
+    </p>
+  </div>
+
+</div>
+
+<div id="heartExplosion"></div>
+
+<script>
+  const startBtn = document.getElementById('startBtn');
+  const nextPicBtn = document.getElementById('nextPicBtn');
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  const step3 = document.getElementById('step3');
+  const slideImg = document.getElementById('slideImg');
+  const heartExplosion = document.getElementById('heartExplosion');
+
+  const images = ['photo1.jpg', 'photo2.jpg', 'photo3.jpg'];
+  let currentIndex = 0;
+
+  function createExplosionHearts(count = 50) {
+    for (let i = 0; i < count; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'explosion-heart';
+      heart.textContent = '❤️';
+      const angle = Math.random() * 2 * Math.PI;
+      const radius = Math.random() * 200 + 100;
+      const x = Math.cos(angle) * radius + 'px';
+      const y = Math.sin(angle) * radius - 100 + 'px';
+      heart.style.setProperty('--x', x);
+      heart.style.setProperty('--y', y);
+      heart.style.left = `calc(50vw - 20px)`;
+      heart.style.top = `calc(50vh - 20px)`;
+      heartExplosion.appendChild(heart);
+      heart.addEventListener('animationend', () => { heart.remove(); });
+    }
+  }
+
+  function heartExplosionEffect(callback) {
+    createExplosionHearts();
+    setTimeout(callback, 1800);
+  }
+
+  startBtn.addEventListener('click', () => {
+    startBtn.disabled = true;
+    heartExplosionEffect(() => {
+      step1.classList.remove('active');
+      step2.classList.add('active');
+      startBtn.disabled = false;
+    });
+  });
+
+  nextPicBtn.addEventListener('click', () => {
+    nextPicBtn.disabled = true;
+    heartExplosionEffect(() => {
+      currentIndex++;
+      if (currentIndex < images.length) {
+        slideImg.src = images[currentIndex];
+        slideImg.alt = `Memory ${currentIndex + 1}`;
+        nextPicBtn.disabled = false;
+        if (currentIndex === images.length - 1) nextPicBtn.textContent = 'Final Surprise ❤️';
+      } else {
+        step2.classList.remove('active');
+        step3.classList.add('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
